@@ -3,9 +3,14 @@ package featurecat.lizzie.gui;
 import featurecat.lizzie.Lizzie;
 import featurecat.lizzie.analysis.GameInfo;
 import featurecat.lizzie.analysis.Leelaz;
+import featurecat.lizzie.analysis.MoveData;
 import featurecat.lizzie.analysis.YaZenGtp;
+import featurecat.lizzie.rules.Board;
+import featurecat.lizzie.rules.BoardData;
+import featurecat.lizzie.rules.BoardHistoryNode;
 import featurecat.lizzie.rules.GIBParser;
 import featurecat.lizzie.rules.SGFParser;
+import featurecat.lizzie.rules.Stone;
 import java.awt.BorderLayout;
 import java.awt.FileDialog;
 import java.awt.Font;
@@ -362,6 +367,69 @@ public abstract class MainFrame extends JFrame {
     return (Lizzie.leelaz != null) && Lizzie.leelaz.isDown()
         ? "Engine is down."
         : resourceBundle.getString("LizzieFrame.display.loading");
+  }
+
+  public String[] intuitionMissMessages() {
+    JSONObject conf = Lizzie.config.uiConfig.optJSONObject("experimental-intuition-miss");
+    if (conf == null || !conf.optBoolean("show-intuition-miss")) return null;
+    int[] numMoves = {0, 0};
+    int[] numMajorIntuitions = {0, 0};
+    int[] numMajorMisses = {0, 0};
+    int[] numMinorMisses = {0, 0};
+    BoardHistoryNode node = Lizzie.board.getHistory().getCurrentHistoryNode();
+    while (node.previous().isPresent()) {
+      BoardData data = node.getData();
+      node = node.previous().get();
+      // Get the move.
+      if (!data.lastMove.isPresent()) continue;
+      int[] lastMove = data.lastMove.get();
+      String lastMoveName = Board.convertCoordinatesToName(lastMove[0], lastMove[1]);
+      int player = (data.lastMoveColor == Stone.BLACK) ? 0 : 1;
+      // Get the policies.
+      List<MoveData> bestMoves = node.getData().bestMoves;
+      if (bestMoves == null || bestMoves.isEmpty()) continue;
+      // (Lizzie assumes that bestMoves are sorted by 'order'.)
+      double bestmovePolicy = bestMoves.get(0).policy;
+      double policy = 0.0;
+      for (MoveData move : bestMoves) {
+        if (move.coordinate.equals(lastMoveName)) {
+          policy = move.policy;
+          break;
+        }
+      }
+      // Detect the misses and count them.
+      numMoves[player] += 1;
+      if (policy < conf.optDouble("minor-policy-threshold", 10)) {
+        numMinorMisses[player] += 1;
+      }
+      if (bestmovePolicy > conf.optDouble("bestmove-policy-threshold", 70)) {
+        numMajorIntuitions[player] += 1;
+        if (policy < conf.optDouble("played-policy-threshold", 10)) numMajorMisses[player] += 1;
+      }
+    }
+    String[] ret = {
+      String.format(
+          "%d/%d %s (Intuition Miss) %s %d/%d",
+          numMajorMisses[0],
+          numMajorIntuitions[0],
+          percentString(numMajorMisses[0], numMajorIntuitions[0]),
+          percentString(numMajorMisses[1], numMajorIntuitions[1]),
+          numMajorMisses[1],
+          numMajorIntuitions[1]),
+      String.format(
+          "%d/%d %s (minor) %s %d/%d",
+          numMinorMisses[0],
+          numMoves[0],
+          percentString(numMinorMisses[0], numMoves[0]),
+          percentString(numMinorMisses[1], numMoves[1]),
+          numMinorMisses[1],
+          numMoves[1]),
+    };
+    return ret;
+  }
+
+  private String percentString(int numerator, int denominator) {
+    return denominator > 0 ? String.format("%.0f%%", (float) 100.0 * numerator / denominator) : "";
   }
 
   public void toggleEstimateByZen() {

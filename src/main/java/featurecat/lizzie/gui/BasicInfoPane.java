@@ -120,8 +120,8 @@ public class BasicInfoPane extends LizziePane {
     g.setColor(Color.white);
 
     // Draw black and white "stone"
-    int diam = height / 3;
-    int smallDiam = diam / 2;
+    int diam = height / 4;
+    int smallDiam = diam * 2 / 3;
     int bdiam = diam, wdiam = diam;
     if (Lizzie.board != null) {
       if (Lizzie.board.inScoreMode() || Lizzie.frame.isEstimating) {
@@ -136,11 +136,11 @@ public class BasicInfoPane extends LizziePane {
     }
     g.setColor(Color.black);
     g.fillOval(
-        posX + width / 4 - bdiam / 2, posY + height * 3 / 8 + (diam - bdiam) / 2, bdiam, bdiam);
+        posX + width / 4 - bdiam / 2, posY + height * 1 / 8 + (diam - bdiam) / 2, bdiam, bdiam);
 
     g.setColor(Color.WHITE);
     g.fillOval(
-        posX + width * 3 / 4 - wdiam / 2, posY + height * 3 / 8 + (diam - wdiam) / 2, wdiam, wdiam);
+        posX + width * 3 / 4 - wdiam / 2, posY + height * 1 / 8 + (diam - wdiam) / 2, wdiam, wdiam);
 
     // Draw captures
     String bval = "", wval = "";
@@ -167,8 +167,8 @@ public class BasicInfoPane extends LizziePane {
     int bx = (largeSubBoard ? diam : -bw / 2);
     int wx = (largeSubBoard ? bx : -ww / 2);
 
-    g.drawString(bval, posX + width / 4 + bx, posY + height * 7 / 8);
-    g.drawString(wval, posX + width * 3 / 4 + wx, posY + height * 7 / 8);
+    g.drawString(bval, posX + width / 4 + bx + diam, posY + height * 5 / 16);
+    g.drawString(wval, posX + width * 3 / 4 + wx + diam, posY + height * 5 / 16);
 
     g.drawString(bTime, posX + width / 10, posY + height / 6);
     g.drawString(wTime, posX + width * 3 / 5, posY + height / 6);
@@ -177,16 +177,27 @@ public class BasicInfoPane extends LizziePane {
     String komi =
         GameInfoDialog.FORMAT_KOMI.format(Lizzie.board.getHistory().getGameInfo().getKomi());
     int kw = g.getFontMetrics().stringWidth(komi);
-    g.drawString(komi, posX - strokeRadius + width / 2 - kw / 2, posY + height * 7 / 8);
+    g.drawString(komi, posX - strokeRadius + width / 2 - kw / 2, posY + height * 7 / 16);
 
     // Status Indicator
     int statusDiam = height / 8;
     g.setColor((Lizzie.leelaz != null && Lizzie.leelaz.isPondering()) ? Color.GREEN : Color.RED);
     g.fillOval(
         posX - strokeRadius + width / 2 - statusDiam / 2,
-        posY + height * 3 / 8 + (diam - statusDiam) / 2,
+        posY + height * 1 / 16 + (diam - statusDiam) / 2,
         statusDiam,
         statusDiam);
+
+    // Draw intuition misses
+    String[] msgs = Lizzie.frame.intuitionMissMessages();
+    if (msgs != null) {
+      g.setColor(Color.WHITE);
+      setPanelFont(g, (float) (height * 0.14));
+      int w0 = g.getFontMetrics().stringWidth(msgs[0]);
+      int w1 = g.getFontMetrics().stringWidth(msgs[1]);
+      g.drawString(msgs[0], posX + (width - w0) / 2, posY + height * 5 / 8);
+      g.drawString(msgs[1], posX + (width - w1) / 2, posY + height * 7 / 8);
+    }
   }
 
   private void setPanelFont(Graphics2D g, float size) {
