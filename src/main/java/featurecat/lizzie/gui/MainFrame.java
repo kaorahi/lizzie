@@ -381,6 +381,7 @@ public abstract class MainFrame extends JFrame {
       BoardData data = node.getData();
       node = node.previous().get();
       // Get the move.
+      if (data.moveNumber <= conf.optInt("skip-first-moves", 0)) break;
       if (!data.lastMove.isPresent()) continue;
       int[] lastMove = data.lastMove.get();
       String lastMoveName = Board.convertCoordinatesToName(lastMove[0], lastMove[1]);
