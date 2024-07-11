@@ -88,6 +88,8 @@ public class Leelaz {
   private ScheduledExecutorService executor;
   private boolean isQuittingNormally = false;
   private boolean isDown = false;
+  public boolean hasHumanModel = false;
+  public String humanSLProfile = null; // null = "no profile"
 
   // dynamic komi and opponent komi as reported by dynamic-komi version of leelaz
   private float dynamicKomi = Float.NaN;
@@ -477,6 +479,12 @@ public class Leelaz {
           Lizzie.initializeAfterVersionCheck(this);
         }
       }
+      if (line.startsWith("Human SL model name:")) {
+        // Read stderr to check humanSL model as a quick hack.
+        // FIXME: We should use kata-get-models instead to do this check correctly.
+        hasHumanModel = true;
+        Lizzie.frame.enableHumanSLProfileMenu(hasHumanModel);
+      }
     }
   }
 
@@ -623,7 +631,14 @@ public class Leelaz {
     }
   }
 
+  private void setHumanSLProfile(boolean on) {
+    if (!hasHumanModel) return;
+    String profile = (on && humanSLProfile != null) ? humanSLProfile : "";
+    sendCommand("kata-set-param humanSLProfile " + profile);
+  }
+
   public void genmove(String color) {
+    setHumanSLProfile(true);
     String command = "genmove " + color;
     /*
      * We don't support displaying this while playing, so no reason to request it (for now)
@@ -636,6 +651,7 @@ public class Leelaz {
   }
 
   public void genmove_analyze(String color) {
+    setHumanSLProfile(true);
     String command =
         "lz-genmove_analyze "
             + color
@@ -722,6 +738,7 @@ public class Leelaz {
   public void ponder() {
     isPondering = true;
     startPonderTime = System.currentTimeMillis();
+    setHumanSLProfile(false);
     if (Lizzie.board.isAvoding
         && Lizzie.board.isKeepingAvoid
         && !isKataGo

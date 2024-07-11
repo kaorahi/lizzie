@@ -121,6 +121,7 @@ public class EngineManager {
         if (!newEng.isPondering()) {
           newEng.togglePonder();
         }
+        Lizzie.frame.enableHumanSLProfileMenu(newEng.hasHumanModel);
       }
       Lizzie.board.restoreMoveNumber();
       this.currentEngineNo = index;

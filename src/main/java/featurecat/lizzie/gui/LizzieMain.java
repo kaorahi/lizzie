@@ -816,6 +816,11 @@ public class LizzieMain extends MainFrame {
     menu.updateScoreMenu(on);
   }
 
+  protected void enableHumanSLProfileMenuInEDT(boolean enabled) {
+    Utils.mustBeEventDispatchThread();
+    menu.enableHumanSLProfileMenu(enabled);
+  }
+
   public boolean openRightClickMenu(int x, int y) {
     if (Lizzie.leelaz.isKataGo && !Lizzie.frame.isMouseOver) {
       return false;

@@ -268,6 +268,9 @@ public abstract class MainFrame extends JFrame {
     StringBuilder sb = new StringBuilder(DEFAULT_TITLE);
     sb.append(playerTitle);
     sb.append(visitsString);
+    if (Lizzie.leelaz.hasHumanModel && Lizzie.leelaz.humanSLProfile != null) {
+      sb.append(" (" + Lizzie.leelaz.humanSLProfile + ")");
+    }
     sb.append(" [" + Lizzie.leelaz.nicknameOrEngineCommand() + "]");
     setTitle(sb.toString());
   }
@@ -532,6 +535,12 @@ public abstract class MainFrame extends JFrame {
   }
 
   protected abstract void updateScoreMenuInEDT(boolean on);
+
+  public void enableHumanSLProfileMenu(boolean enabled) {
+    SwingUtilities.invokeLater(() -> enableHumanSLProfileMenuInEDT(enabled));
+  }
+
+  protected abstract void enableHumanSLProfileMenuInEDT(boolean enabled);
 
   public abstract boolean openRightClickMenu(int x, int y);
 
