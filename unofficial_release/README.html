@@ -15,19 +15,20 @@
 <h2>Contents</h2>
 
 <ul>
-<li>Lizzie: <a href="https://github.com/featurecat/lizzie/issues/798">patched-0.7.4</a> on 2023-12-31 (Major bugs in Lizzie 0.7.4 are fixed.)</li>
-<li>KataGo: <a href="https://github.com/lightvector/KataGo/releases/tag/v1.14.0">1.14.0</a> + <a href="https://katagotraining.org/networks/">15 blocks network</a> (kata1-b15c192-s1672)</li>
+<li>Lizzie: <a href="https://github.com/featurecat/lizzie/issues/798">patched-0.7.4</a> on 2024-07-20 (Major bugs in Lizzie 0.7.4 are fixed.)</li>
+<li>KataGo: <a href="https://github.com/lightvector/KataGo/releases/tag/v1.15.1">1.15.1</a> + <a href="https://katagotraining.org/networks/">18 block network</a> (kata1-b18c384nbt-s9996) + human SL model (b18c384nbt-humanv0)</li>
 <li>Java: minimum runtime environment for Lizzie (from <a href="http://openjdk.java.net/">OpenJDK 11</a>)
 </li>
 </ul>
 
 <h2>Usage</h2>
 
-<font color="red">Right-click the downloaded file to UNZIP it (Never double-click the zip file directly to open it).</font> Then just double-click "Lizzie" (Lizzie.vbs) in it. Hit SPACE key to stop/start analysis. You may want to switch the rule from "Analyze" menu. You can also switch three AIs from "Engine" menu:
+<font color="red">Right-click the downloaded file to UNZIP it (Never double-click the zip file directly to open it).</font> Then just double-click "Lizzie" (Lizzie.vbs) in it. Press SPACE key to stop/start analysis. You may want to switch the rule from "Analyze" menu. You can also switch among four AIs from "Engine" menu:
 <ul>
-<li>KataGo (CPU): slow but safe for old/low-end PC</li>
-<li>KataGo (Modern CPU): faster</li>
-<li>KataGo (GPU): much faster if your GPU works successfully. Note that it takes long time for initial tuning at the first run.</li>
+<li>KataGo (CPU): Slow but simple to use</li>
+<li>KataGo (GPU): Faster if your GPU works properly. Note that the initial tuning takes a long time on the first run.</li>
+<li>Human-like (CPU): Play against human-like AI. You can set the humanSL profile, e.g., "rank_5k" (5 kyu) or "proyear_1960" (professional style in 1960), from the Game menu. This doesn't affect the analysis; it only impacts the gameplay.</li>
+<li>Human-like (GPU): Same as above.</li>
 </ul>
 
 <h2>Original feature</h2>
@@ -53,6 +54,7 @@ This feature was imported from <a href="https://github.com/kaorahi/lizgoban">Liz
 <h2>Changes</h2>
 
 <ul>
+<li>240720a: KataGo 1.15.1, human-like play, removed old CPU support</li>
 <li>231231a: KataGo 1.14.0, stone entropy plot, minor fixes</li>
 <li>220510a: KataGo 1.11.0, fix of flicker in auto-analysis</li>
 <li>211211b: workaround for non-ASCII path names again (thx &gt; Eba san)</li>

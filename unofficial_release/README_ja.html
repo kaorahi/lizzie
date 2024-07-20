@@ -15,19 +15,20 @@
 <h2>内容</h2>
 
 <ul>
-<li>Lizzie: <a href="https://github.com/featurecat/lizzie/issues/798">patched-0.7.4</a> 2023-12-31版 (Lizzie 0.7.4の大バグも修正済)</li>
-<li>KataGo: <a href="https://github.com/lightvector/KataGo/releases/tag/v1.14.0">1.14.0</a> + <a href="https://katagotraining.org/networks/">15ブロックネットワーク</a> (kata1-b15c192-s1672)</li>
+<li>Lizzie: <a href="https://github.com/featurecat/lizzie/issues/798">patched-0.7.4</a> 2024-07-20版 (Lizzie 0.7.4の大バグも修正済)</li>
+<li>KataGo: <a href="https://github.com/lightvector/KataGo/releases/tag/v1.15.1">1.15.1</a> + <a href="https://katagotraining.org/networks/">18ブロックネットワーク</a> (kata1-b18c384nbt-s9996) + 人間風モデル (b18c384nbt-humanv0)</li>
 <li>Java: Lizzieに必要な最低限の実行環境入り (<a href="http://openjdk.java.net/">OpenJDK 11</a>より)
 </li>
 </ul>
 
 <h2>使い方</h2>
 
-<font color="red">ダウンロードしたzipファイルをまず右クリックして「展開」します（展開せずにそのままダブルクリックで開いてはいけません）。</font>あとはその中の「Lizzie」(Lizzie.vbs)をダブルクリックするだけ。分析の停止・再開はスペースキー。ルールを切りかえたければ「分析」メニューから。「エンジン」メニューでは3種類のAIを選べます。
+<font color="red">ダウンロードしたzipファイルをまず右クリックして「展開」します（展開せずにそのままダブルクリックで開いてはいけません）。</font>あとはその中の「Lizzie」(Lizzie.vbs)をダブルクリックするだけ。分析の停止・再開はスペースキー。ルールを切りかえたければ「分析」メニューから。「エンジン」メニューでは4種類のAIを選べます。
 <ul>
-<li>KataGo (CPU): 遅いけれど、古めで性能低めのPCでも動くかも</li>
-<li>KataGo (Modern CPU): こちらのほうが速い</li>
+<li>KataGo (CPU): 遅いけれど手軽</li>
 <li>KataGo (GPU): GPUがうまく動けば圧倒的に速い。ただし、初回は長時間のチューニングが必要。</li>
+ <li>Human-like (CPU): 人間風AIとの対戦用。「対局」メニューの「人間風設定」から、「rank_5k」（5級）や「proyear_1960」（1960年のプロ）などを選べる。この設定は対戦専用なので、解析には影響しない。</li>
+<li>Human-like (GPU): 同上</li>
 </ul>
 
 <h2>独自機能</h2>
@@ -53,6 +54,7 @@
 <h2>更新履歴</h2>
 
 <ul>
+<li>240720a: KataGo 1.15.1, 人間風の打ち方, 古いCPUのサポートを廃止</li>
 <li>231231a: KataGo 1.14.0, 石の生死のあいまいさをプロット, その他微修正</li>
 <li>220510a: KataGo 1.11.0, 自動解析時のちらつきを修正</li>
 <li>211211b: 日本語フォルダ名でのエラーを再回避 (thx &gt; 江場さん)</li>

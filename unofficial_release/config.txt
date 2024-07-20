@@ -12,9 +12,9 @@
       false
     ],
     "engine-command-list": [
-      "<KataGo (Modern CPU)> katago/katago-eigenavx2 gtp -config katago/default_gtp.cfg -model katago/default_model.txt.gz",
-      "<KataGo (GPU)> katago/katago-opencl gtp -config katago/default_gtp.cfg -model katago/default_model.txt.gz",
-      "",
+      "<KataGo (GPU)> katago/katago-opencl gtp -config katago/default_gtp.cfg -model katago/default_model.bin.gz",
+      "<Human-like (CPU)> katago/katago-eigenavx2 gtp -config katago/gtp_human5k_example.cfg -model katago/default_model.bin.gz -human-model katago/human_model.bin.gz",
+      "<Human-like (GPU)> katago/katago-opencl gtp -config katago/gtp_human5k_example.cfg -model katago/default_model.bin.gz -human-model katago/human_model.bin.gz",
       "",
       "",
       "",
@@ -29,7 +29,7 @@
     "max-game-thinking-time-seconds": 2,
     "engine-start-location": ".",
     "avoid-keep-variations": 30,
-    "engine-command": "<KataGo (CPU)> katago/katago-eigen gtp -config katago/default_gtp.cfg -model katago/default_model.txt.gz",
+    "engine-command": "<KataGo (CPU)> katago/katago-eigenavx2 gtp -config katago/default_gtp.cfg -model katago/default_model.bin.gz",
     "print-comms": false,
     "show-lcb-winrate": false
   },
