@@ -17,14 +17,14 @@ jobs:
     - name: Make JRE
       run: jlink --module-path $JAVA_HOME/jmods/ --add-modules java.desktop --compress=2 --strip-debug --output tmp_jre
     - name: Upload JRE
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: jre
         path: tmp_jre
     - name: Make JAR
       run: mvn -B package --file pom.xml
     - name: Upload JAR
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: jar
         path: target/*-shaded.jar
@@ -41,12 +41,12 @@ jobs:
         rm -rf jre jar katago
         mkdir jre jar katago
     - name: Download JRE
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4
       with:
         name: jre
         path: unofficial_release/jre
     - name: Download JAR
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4
       with:
         name: jar
         path: unofficial_release/jar
@@ -57,7 +57,7 @@ jobs:
         make kata
         make zip
     - name: Upload ZIP
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: lizzie_unofficial_release
         path: unofficial_release/tmp_Lizzie-*.zip
