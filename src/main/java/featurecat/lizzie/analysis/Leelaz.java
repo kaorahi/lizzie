@@ -95,6 +95,7 @@ public class Leelaz {
   private float dynamicKomi = Float.NaN;
   private float dynamicOppKomi = Float.NaN;
   public boolean isKataGo = false;
+  public boolean isLeelaZero = false;
   public boolean supportScoremean = false;
   ArrayList<Double> estimateArray = new ArrayList<Double>();
   public double scoreMean = 0;
@@ -461,14 +462,15 @@ public class Leelaz {
         } else if (isCheckingName) {
           if (params[1].startsWith("KataGo")) {
             this.isKataGo = true;
-            Lizzie.initializeAfterVersionCheck(this);
+          } else if (params[1].startsWith("Leela Zero")) {
+            this.isLeelaZero = true;
           }
           isCheckingName = false;
-        } else if (isCheckingVersion && !isKataGo) {
+        } else if (isCheckingVersion) {
           String[] ver = params[1].split("\\.");
           int minor = Integer.parseInt(ver[1]);
           // Gtp support added in version 15
-          if (minor < 15) {
+          if (this.isLeelaZero && minor < 15) {
             Utils.showMessageDialog(
                 Lizzie.frame,
                 "Lizzie requires version 0.15 or later of Leela Zero for analysis (found "
